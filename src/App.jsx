@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ChakraProvider, defaultSystem, Box } from '@chakra-ui/react';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -13,16 +14,22 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<PrivateRoute><Notes /></PrivateRoute>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <ChakraProvider value={defaultSystem}>
+      <AuthProvider>
+        <Router>
+          <Box minH="100vh" bg="gray.50">
+            <Navbar />
+            <Box as="main" role="main">
+              <Routes>
+                <Route path="/" element={<PrivateRoute><Notes /></PrivateRoute>} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+            </Box>
+          </Box>
+        </Router>
+      </AuthProvider>
+    </ChakraProvider>
   );
 }
 
